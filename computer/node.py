@@ -3,21 +3,14 @@ from board.board import Board
 from board.square import Square
 
 class Node:
-    #TODO does node even need board? Can it just be move, value and children?
-    def __init__(self, board: Board, value: int, children: list[Node]):
-        self.board = board
-        self.value = value
-        self.children = children
-        self.move = None
 
-    def setParent(self, parent):
-        self.parent = parent
+    def __init__(self, move: Square, value: int):
+        self.value = value
+        self.children = list()
+        self.move = move
 
     def setMove(self, move: Square):
         self.move = move
-
-    def addChild(self, child):
-        self.children.append(child)
 
     def __lt__(self, other):
         return self.value < other.value

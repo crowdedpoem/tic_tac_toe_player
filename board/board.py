@@ -80,15 +80,6 @@ class Board:
         if self.emptySquares == 0:
             return 0
 
-    def getDiffFromBoards(self, new: Board) -> list[Square]:
-        diff = list()
-        for i in range(9):
-            oldSquare = self.squares[i]
-            newSquare = new.squares[i]
-            if oldSquare != newSquare:
-                diff.append(newSquare)
-        return diff
-
     def __str__(self):
         string = ""
         i = 0

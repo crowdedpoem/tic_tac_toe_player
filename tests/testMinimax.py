@@ -50,6 +50,4 @@ def test_minimax(layout, assignedValue, expected, move):
     bestState = computer.play(board)
     print('printing what beststate value is ' + str(bestState))
     assert bestState.value == expected
-    # skip for now on what the best square is
-   # bestMove = computer.getMoveFromBestBoard(board, bestState.board)
-   # assert bestState.move.index == move.index
+    assert bestState.move.index == move.index
