@@ -5,11 +5,10 @@ class Player(IntEnum):
     Maximizer = 1
     Minimizer = -1
 
-    @classmethod
-    def otherPlayer(cls, player):
-        if player == Player.Maximizer:
+    def otherPlayer(self):
+        if self == Player.Maximizer:
             return Player.Minimizer
-        elif player == Player.Minimizer:
+        elif self == Player.Minimizer:
             return Player.Maximizer
         raise ValueError("Empty does not have other player")
         

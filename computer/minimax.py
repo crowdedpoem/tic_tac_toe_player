@@ -10,12 +10,11 @@ class Minimax:
     def buildTree(self, currPlayer: Player, currBoard: Player) -> Node:
         self.iter += 1
         if currBoard.isTerminal():
-            return Node(None, currBoard.terminalValue())
+            return Node(currBoard.terminalValue())
         
         children = self.iterThroughChildren(currBoard, currPlayer)
-        best = self.bestChild(children, currPlayer)
         print('iter is ' + str(self.iter))
-        return Node(best.move, best.value)
+        return self.bestChild(children, currPlayer)
         
 
     #TODO add alpha beta pruning here
@@ -27,24 +26,20 @@ class Minimax:
             print('move is ' + str(square))
             newBoard = currBoard.createBoardInstancesForNode(square.index, currPlayer)
             print('newBoard is:\n' + str(newBoard))
-            childNode = self.buildTree(Player.otherPlayer(currPlayer), newBoard)
+            childNode = self.buildTree(currPlayer.otherPlayer(), newBoard)
             childNode.setMove(square)
             print(f"this is child node: {str(childNode)}")
             li.append(childNode)
-            # already found a winning move 
-            if childNode.value == currPlayer.value:
-                break
         return li
 
     def bestChild(self, children: list[Node], currPlayer: Player) -> Node:
-        # TODO make a child object with (Square, Node)
-        bestDiff = abs(children[0].value - currPlayer.value)
-        best = children[0]
-        for index, child in enumerate(children):
+        bestDiff = 100
+        best = None
+        for child in children:
             diff = abs(child.value - currPlayer.value)
             if diff < bestDiff:
                 bestDiff = diff
-                best = children[index]
+                best = child
         return best
 
 
