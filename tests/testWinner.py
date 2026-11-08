@@ -1,6 +1,6 @@
 import pytest
 
-from board.state import State
+from board.player import Player
 from tests.boardCreate import makeBoard
 
 
@@ -9,31 +9,31 @@ from tests.boardCreate import makeBoard
         XXX
         OO.
         ...
-    """, State.Maximizer, id="row-win"),
+    """, Player.Maximizer, id="row-win"),
 
     pytest.param("""
         O.X
         OX.
         O..
-    """, State.Minimizer, id="column-win"),
+    """, Player.Minimizer, id="column-win"),
 
     pytest.param("""
         X.O
         .XO
         ..X
-    """, State.Maximizer, id="diagonal-win"),
+    """, Player.Maximizer, id="diagonal-win"),
 
     pytest.param("""
         XOX
         XOO
         OXX
-    """, State.Empty, id="draw"),
+    """, Player.Empty, id="draw"),
 
     pytest.param("""
         X..
         .O.
         ...
-    """, State.Empty, id="in-progress"),
+    """, Player.Empty, id="in-progress"),
 ])
 
 def test_winner(layout, expected):

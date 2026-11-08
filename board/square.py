@@ -1,26 +1,31 @@
 
 from math import floor
 
-from board.state import State
+from board.player import Player
 
 
 class Square:
 
-    def __init__(self, index):
+    def __init__(self, index: int):
         self.index = index
         self.x = index % 3
         self.y = floor(index / 3)
-        self.value = State.Empty
+        self.value = Player.Empty
 
-    def set(self, value):
+    def set(self, value) -> None:
         if(self.isAvailable()):
             self.value = value
 
-    def isAvailable(self):
-        return self.value == State.Empty
+    def isAvailable(self) -> bool:
+        return self.value == Player.Empty
 
     def __str__(self):
         return ('|x: %d y: %d state: %s|' % (self.x, self.y, str(self.value).ljust(10)))
 
     def __repr__(self):
         return str(self)
+
+    def __eq__(self, other):
+        if self.index == other.index and self.value == other.value:
+            return True
+        return False

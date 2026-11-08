@@ -1,13 +1,14 @@
 import pytest
 
-from board.state import State
+from board.player import Player
+from board.square import Square
 from computer.computer import Computer
 from tests.boardCreate import makeBoard
 
 # input:
 # - board
 # - who it is: min or max
-# computer needs to find:
+# computer needs to find: 
 # - correct score
 # - correct move
 
@@ -16,13 +17,13 @@ from tests.boardCreate import makeBoard
         XX.
         OO.
         ...
-    """, State.Maximizer, State.Maximizer, 2, id="max-win-top-right"),
+    """, Player.Maximizer, Player.Maximizer, Square(2), id="max-win-top-right"),
 
-    # pytest.param("""
-    #     O.X
-    #     OX.
-    #     O..
-    # """, State.Minimizer, id="column-win"),
+     pytest.param("""
+         O.X
+         O..
+         X..
+     """, Player.Minimizer, Player.Minimizer, Square(4), id="column-win"),
 
     # pytest.param("""
     #     X.O
@@ -47,7 +48,8 @@ def test_minimax(layout, assignedValue, expected, move):
     board = makeBoard(layout)
     computer = Computer(assignedValue)
     bestState = computer.play(board)
-    print('printing what beststate value is ' + str(bestState.value))
+    print('printing what beststate value is ' + str(bestState))
     assert bestState.value == expected
-    # skip for now on what the best move is
-    # assert bestState.move == 
+    # skip for now on what the best square is
+   # bestMove = computer.getMoveFromBestBoard(board, bestState.board)
+   # assert bestState.move.index == move.index

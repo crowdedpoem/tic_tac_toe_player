@@ -1,18 +1,15 @@
 # test_tictactoe.py
 from board.board import Board
-import pytest
 from board.square import Square
-from board.state import State # adjust to your API
-
-
+from board.player import Player # adjust to your API
 
 
 def makeBoard(s: str) -> Board:
     """Build a board from a visual string. '.' = empty."""
     mapper = {
-        'X': State.Maximizer,
-        'O': State.Minimizer,
-        '.': State.Empty
+        'X': Player.Maximizer,
+        'O': Player.Minimizer,
+        '.': Player.Empty
     }
     board = Board([Square(i) for i in range(9)], 9)
     rows = s.split()
@@ -24,7 +21,6 @@ def makeBoard(s: str) -> Board:
             # print('colIndex: ' + str(colIndex))
             # print('value: ' + str(value))
             val = mapper[value]
-            print('val is ' + str(val))
             board.select(rowIndex * 3 + colIndex, val)
     return board
 
