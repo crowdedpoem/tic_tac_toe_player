@@ -7,9 +7,13 @@ class Node:
     def __init__(self, value: int):
         self.value = value
         self.move = None
+        self.children = list()
 
     def setMove(self, move: Square):
         self.move = move
 
+    def addChildren(self, children: list[Node]):
+        self.children = children
+
     def __str__(self):
-        return f"Node -> value: {str(self.value).ljust(3)}, move: {self.move}"
+        return f"N(move: {self.move.index}, expected: {str(self.value).ljust(2)})"

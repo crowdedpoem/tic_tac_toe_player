@@ -65,7 +65,6 @@ class Board:
 
     def isTerminal(self) -> bool:
         if self.isWinner(Player.Maximizer) or self.isWinner(Player.Minimizer):
-            print('someone won')
             return True
         if self.emptySquares == 0:
             return True
@@ -74,8 +73,10 @@ class Board:
     def terminalValue(self) -> int:
         # check if we can still play or check winner
         if self.isWinner(Player.Minimizer):
+            print('mini won')
             return Player.Minimizer.value
         if self.isWinner(Player.Maximizer):
+            print('max won')
             return Player.Maximizer.value
         if self.emptySquares == 0:
             return 0

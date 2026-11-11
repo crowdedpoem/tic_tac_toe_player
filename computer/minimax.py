@@ -5,31 +5,42 @@ from board.player import Player
 
 class Minimax:
     def __init__(self):
+        
         self.iter = 0
 
-    def buildTree(self, currPlayer: Player, currBoard: Player) -> Node:
-        self.iter += 1
+    def buildTree(self, currPlayer: Player, currBoard: Player, alpha: int, beta: int) -> Node:
         if currBoard.isTerminal():
+            self.iter += 1
             return Node(currBoard.terminalValue())
         
-        children = self.iterThroughChildren(currBoard, currPlayer)
-        print('iter is ' + str(self.iter))
+        children = self.iterThroughChildren(currBoard, currPlayer, alpha, beta)
         return self.bestChild(children, currPlayer)
-        
 
-    #TODO add alpha beta pruning here
-    def iterThroughChildren(self, currBoard: Board, currPlayer: Player) -> list[Node]:
+    def iterThroughChildren(self, currBoard: Board, currPlayer: Player, alpha: int, beta: int) -> list[Node]:
         li = []
         exploreMoves = currBoard.possibleMoves()
-        print('exploring ' + str(len(exploreMoves)) + ' moves')
         for square in exploreMoves:
-            print('move is ' + str(square))
             newBoard = currBoard.createBoardInstancesForNode(square.index, currPlayer)
-            print('newBoard is:\n' + str(newBoard))
-            childNode = self.buildTree(currPlayer.otherPlayer(), newBoard)
+            childNode = self.buildTree(currPlayer.otherPlayer(), newBoard, alpha, beta)
             childNode.setMove(square)
-            print(f"this is child node: {str(childNode)}")
             li.append(childNode)
+            # potentially break, iter is 457
+            childVal = childNode.value
+            if currPlayer.isMaximizer():
+                # if maximizer, then we should check beta <= alpha
+                if beta <= alpha:
+                    print(f'beta {beta} less than child value {childVal}, quit. Move: '+ str(childNode.move) + ' curr player:' + str(currPlayer) +  '\n' + str(newBoard))
+                    alpha = childVal
+                   # self.printChildren(li)
+                    return li
+            else:
+                # if minimizer, then we should check alpha >= beta
+                if alpha >= beta:
+                    print('alpha greater than child value, quit. Move: '+ str(childNode.move) + ' ' + str(currPlayer) + '\n' + str(newBoard))
+                    beta = childVal
+                   # self.printChildren(li)
+                    return li
+       # self.printChildren(li)
         return li
 
     def bestChild(self, children: list[Node], currPlayer: Player) -> Node:
@@ -45,5 +56,20 @@ class Minimax:
 
     def printTree(self, node):
         print('node: ' + str(node))
+        print('node children ' + str(len(node.children)))
         for child in node.children:
             self.printTree(child)
+
+
+    def printChildren(self, liNodes: list[Node]):
+        if len(liNodes) == 0:
+            return
+        node = liNodes.pop(0)
+        print('\nroot node: ' + str(node))
+        li = node.children
+        print('children length: ' + str(len(li)))
+        for child in li:
+            print(child)
+            if child != node:
+                liNodes.append(child)
+        self.printChildren(liNodes)

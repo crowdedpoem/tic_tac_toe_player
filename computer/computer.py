@@ -10,4 +10,7 @@ class Computer:
 
     def play(self, board: Board) -> Node:
         mmTree = Minimax()
-        return mmTree.buildTree(self.player, board)
+        topNode = mmTree.buildTree(self.player, board, -1000, 1000)
+        print('trying to show children at top level')
+        mmTree.printChildren([topNode])
+        return topNode

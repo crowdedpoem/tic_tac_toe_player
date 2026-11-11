@@ -11,4 +11,6 @@ class Player(IntEnum):
         elif self == Player.Minimizer:
             return Player.Maximizer
         raise ValueError("Empty does not have other player")
-        
+
+    def isMaximizer(self):
+        return self == Player.Maximizer

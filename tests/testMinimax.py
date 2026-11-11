@@ -24,30 +24,24 @@ from tests.boardCreate import makeBoard
          O..
          X..
      """, Player.Minimizer, Player.Minimizer, Square(4), id="column-win"),
-
-    # pytest.param("""
-    #     X.O
-    #     .XO
-    #     ..X
-    # """, State.Maximizer, id="diagonal-win"),
-
-    # pytest.param("""
-    #     XOX
-    #     XOO
-    #     OXX
-    # """, State.Empty, id="draw"),
-
-    # pytest.param("""
-    #     X..
-    #     .O.
-    #     ...
-    # """, State.Empty, id="in-progress"),
+# we are not valuing winning quicker, leads to unexpected results
+    pytest.param("""
+        .OO
+        .XX
+        ...
+    """, Player.Maximizer, Player.Maximizer, Square(0), id="diagonal-win"),
+    # square is 1 because the program knows a draw is inevitable and just picks the first option
+    pytest.param("""
+        X..
+        .O.
+        ...
+    """, Player.Maximizer, Player.Empty, Square(1), id="in-progress"), 
 ])
 
 def test_minimax(layout, assignedValue, expected, move):
     board = makeBoard(layout)
     computer = Computer(assignedValue)
     bestState = computer.play(board)
-    print('printing what beststate value is ' + str(bestState))
+    # print('printing what beststate value is ' + str(bestState))
     assert bestState.value == expected
     assert bestState.move.index == move.index

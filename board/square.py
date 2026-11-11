@@ -20,7 +20,7 @@ class Square:
         return self.value == Player.Empty
 
     def __str__(self):
-        return ('|x: %d y: %d state: %s|' % (self.x, self.y, str(self.value).ljust(10)))
+        return ('[index: %d state: %s]' % (self.index, str(self.value).ljust(2)))
 
     def __repr__(self):
         return str(self)
