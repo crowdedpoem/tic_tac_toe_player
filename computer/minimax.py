@@ -8,7 +8,7 @@ class Minimax:
         
         self.iter = 0
 
-    def buildTree(self, currPlayer: Player, currBoard: Player, alpha: int, beta: int) -> Node:
+    def buildTree(self, currPlayer: Player, currBoard: Board, alpha: int, beta: int) -> Node:
         if currBoard.isTerminal():
             self.iter += 1
             return Node(currBoard.terminalValue())
@@ -27,19 +27,14 @@ class Minimax:
             # potentially break, iter is 457
             childVal = childNode.value
             if currPlayer.isMaximizer():
-                # if maximizer, then we should check beta <= alpha
-                if beta <= alpha:
-                    print(f'beta {beta} less than child value {childVal}, quit. Move: '+ str(childNode.move) + ' curr player:' + str(currPlayer) +  '\n' + str(newBoard))
-                    alpha = childVal
-                   # self.printChildren(li)
-                    return li
+                alpha = max(alpha, childVal)
             else:
-                # if minimizer, then we should check alpha >= beta
-                if alpha >= beta:
-                    print('alpha greater than child value, quit. Move: '+ str(childNode.move) + ' ' + str(currPlayer) + '\n' + str(newBoard))
-                    beta = childVal
-                   # self.printChildren(li)
-                    return li
+                beta = min(beta, childVal)
+
+            if alpha >= beta:
+                print(f'beta {beta} less than child value {childVal}, quit. Move: '+ str(childNode.move) + ' curr player:' + str(currPlayer) +  '\n' + str(newBoard))
+                # self.printChildren(li)
+                return li
        # self.printChildren(li)
         return li
 
